@@ -1,0 +1,24 @@
+server:
+  port: 5005
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:5000/eureka/
+spring:
+  application:
+    name: service-zuul
+zuul:
+  routes:
+    service-ribbon:
+      path: /service-ribbon/**
+      serviceId: service-ribbon
+#      url: http://${eureka.instance.hostname}:5003/
+      stripPrefix: false
+    service-feign:
+      path: /service-feign/**
+      serviceId: service-feign
+#      url: http://${eureka.instance.hostname}:5004/
+      stripPrefix: false
+

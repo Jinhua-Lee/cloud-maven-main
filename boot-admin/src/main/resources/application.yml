@@ -1,0 +1,13 @@
+server:
+  port: 8788
+
+spring:
+  application:
+    name: boot-admin
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:5000/eureka/
