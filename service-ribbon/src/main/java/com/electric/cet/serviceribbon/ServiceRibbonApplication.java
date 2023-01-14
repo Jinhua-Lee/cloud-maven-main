@@ -7,7 +7,6 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-import org.junit.Test;
 
 /**
  * @author Jinhua
@@ -26,12 +25,5 @@ public class ServiceRibbonApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
-    @Test
-    public void test() {
-        String exceptStr = "\\'/:*?\"<>|() ";
-        System.out.println(exceptStr.charAt(1));
-    }
-
 
 }

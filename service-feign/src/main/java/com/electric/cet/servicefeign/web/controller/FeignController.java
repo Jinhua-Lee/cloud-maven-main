@@ -20,7 +20,7 @@ public class FeignController {
 
     @GetMapping("/hello")
     public String hello (@RequestParam("name") String name) {
-        return toEurekaClient.helloFromEC(name);
+        return toEurekaClient.helloFromClient(name);
     }
 
 }

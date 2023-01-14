@@ -1,8 +1,11 @@
 package com.electric.cet.serviceribbon;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+/**
+ * @author Jinhua-Lee
+ */
 public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override

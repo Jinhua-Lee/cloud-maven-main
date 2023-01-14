@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Jinhua-Lee
+ */
 @Slf4j
 @Component
 public class MyFilter extends ZuulFilter {

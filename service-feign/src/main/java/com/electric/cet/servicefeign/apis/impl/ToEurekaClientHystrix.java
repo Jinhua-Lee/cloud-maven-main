@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ToEurekaClientHystrix implements ToEurekaClient {
     @Override
-    public String helloFromEC(String name) {
+    public String helloFromClient(String name) {
         return "sorry, " + name;
     }
 }
