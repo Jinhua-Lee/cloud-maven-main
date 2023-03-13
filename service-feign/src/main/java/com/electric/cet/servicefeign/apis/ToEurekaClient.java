@@ -1,7 +1,7 @@
 package com.electric.cet.servicefeign.apis;
 
 import com.electric.cet.servicefeign.apis.impl.ToEurekaClientHystrix;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
