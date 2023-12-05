@@ -1,5 +1,6 @@
 package com.jinhua.servicefeign.apis.impl;
 
+import com.jinhua.feigncommon.MyHelloDTO;
 import com.jinhua.servicefeign.apis.ToEurekaClient;
 import org.springframework.stereotype.Component;
 
@@ -8,8 +9,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ToEurekaClientHystrix implements ToEurekaClient {
+
     @Override
-    public String helloFromClient(String name) {
-        return "sorry, " + name;
+    public String helloFromClient(MyHelloDTO hello) {
+        return hello.getName();
     }
 }

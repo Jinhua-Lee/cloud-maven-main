@@ -24,6 +24,7 @@
         <module>service-ribbon</module>
         <module>service-zuul</module>
         <module>boot-admin</module>
+        <module>feign-common</module>
     </modules>
 
     <properties>
@@ -32,6 +33,8 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>2020.0.6</spring-cloud.version>
         <spring-boot.version>2.5.14</spring-boot.version>
+
+        <feign-common.version>1.0.0</feign-common.version>
     </properties>
 
     <dependencies>

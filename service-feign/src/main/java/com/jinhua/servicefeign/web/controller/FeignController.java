@@ -1,5 +1,6 @@
 package com.jinhua.servicefeign.web.controller;
 
+import com.jinhua.feigncommon.MyHelloDTO;
 import com.jinhua.servicefeign.apis.ToEurekaClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,12 @@ public class FeignController {
     private ToEurekaClient toEurekaClient;
 
     @GetMapping("/hello")
-    public String hello (@RequestParam("name") String name) {
-        return toEurekaClient.helloFromClient(name);
+    public String hello(@RequestParam("name") String name) {
+        return toEurekaClient.helloFromClient(
+                MyHelloDTO.builder()
+                        .name(name)
+                        .build()
+        );
     }
 
 }
