@@ -1,11 +1,9 @@
 package com.jinhua.eurekaclient.web.controller;
 
+import com.jinhua.feigncommon.MyHelloDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -26,8 +24,8 @@ public class AccountController {
     @Value(value = "${server.port}")
     private Integer port;
 
-    @GetMapping(value = "/hello")
-    public String home(@RequestParam(value = "name", defaultValue = "def") String name) {
-        return "Hello, " + name + "! I am from port: " + port;
+    @PostMapping(value = "/hello")
+    public String home(@RequestBody MyHelloDTO hello) {
+        return "Hello, " + hello.getName() + "! I am from port: " + port;
     }
 }

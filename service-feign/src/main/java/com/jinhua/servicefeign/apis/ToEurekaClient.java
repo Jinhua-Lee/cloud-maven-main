@@ -4,6 +4,7 @@ import com.jinhua.feigncommon.MyHelloDTO;
 import com.jinhua.servicefeign.apis.impl.ToEurekaClientHystrix;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,7 +20,7 @@ public interface ToEurekaClient {
      * @param hello 入参DTO
      * @return hello string.
      */
-    @GetMapping("/eureka-client/hello")
+    @PostMapping("/eureka-client/hello")
     String helloFromClient(@RequestBody MyHelloDTO hello);
 
 }
