@@ -6,19 +6,25 @@ eureka:
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:5000/eureka/
+    registry-fetch-interval-seconds: 5
 spring:
   application:
     name: service-zuul
 zuul:
   routes:
-    service-ribbon:
-      path: /service-ribbon/**
-      serviceId: service-ribbon
-#      url: http://${eureka.instance.hostname}:5003/
-      stripPrefix: false
-    service-feign:
-      path: /service-feign/**
-      serviceId: service-feign
-#      url: http://${eureka.instance.hostname}:5004/
-      stripPrefix: false
+    eureka-client: /eureka-client/**
+#      path: /eureka-client/**
+#      serviceId: eureka-client
+#      #      url: http://${eureka.instance.hostname}:5002/
+#      stripPrefix: false
+    service-ribbon: /service-ribbon/**
+#      path: /service-ribbon/**
+#      serviceId: service-ribbon
+##      url: http://${eureka.instance.hostname}:5003/
+#      stripPrefix: false
+    service-feign: /service-feign/**
+#      path: /service-feign/**
+#      serviceId: service-feign
+##      url: http://${eureka.instance.hostname}:5004/
+#      stripPrefix: false
 
