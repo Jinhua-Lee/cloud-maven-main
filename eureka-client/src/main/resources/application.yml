@@ -10,3 +10,6 @@ eureka:
 spring:
   application:
     name: eureka-client
+
+routing:
+  filter-pattern: /*
