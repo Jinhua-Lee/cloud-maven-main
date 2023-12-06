@@ -21,7 +21,6 @@
         <module>eureka-server</module>
         <module>eureka-client</module>
         <module>service-feign</module>
-        <module>service-ribbon</module>
         <module>service-zuul</module>
         <module>boot-admin</module>
         <module>feign-common</module>
