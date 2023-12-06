@@ -14,3 +14,5 @@ feign:
   hystrix:
     enabled: true
 
+routing:
+  filter-pattern: /*
