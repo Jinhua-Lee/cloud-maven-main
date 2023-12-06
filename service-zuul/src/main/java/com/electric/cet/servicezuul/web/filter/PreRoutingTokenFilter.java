@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @Component
-public class MyFilter extends ZuulFilter {
-
+public class PreRoutingTokenFilter extends ZuulFilter {
 
     /**
      * filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
@@ -58,8 +57,8 @@ public class MyFilter extends ZuulFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        System.out.println(request.getMethod());
-        log.info(String.format("%s >>> %s", request.getMethod(), request.getRequestURL().toString()));
+        log.info("[pre routing] request method: " + request.getMethod());
+        log.info(String.format("[pre routing] %s >>> %s", request.getMethod(), request.getRequestURL().toString()));
         Object accessToken = request.getParameter("token");
         if (accessToken == null) {
             log.warn("token is empty");
@@ -72,7 +71,7 @@ public class MyFilter extends ZuulFilter {
 
             return null;
         }
-        log.info("ok");
+        log.info("[pre routing] ok");
         return null;
     }
 }

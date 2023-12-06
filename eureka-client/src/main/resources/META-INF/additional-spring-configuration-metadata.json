@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "routing.filter-pattern",
+      "type": "java.lang.String",
+      "description": "Description for routing.filter-pattern."
+    }
+  ]
+}
