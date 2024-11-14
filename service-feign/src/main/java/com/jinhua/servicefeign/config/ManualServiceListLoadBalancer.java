@@ -16,9 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Jinhua-Lee
@@ -43,54 +41,16 @@ public class ManualServiceListLoadBalancer implements ReactorServiceInstanceLoad
     }
 
     private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> serviceInstances) {
-        String url = getReachableUrl();
+        String url = NetStateUtil.getReachableUrl(
+                configUrlAndTimeoutConfig.getUrlList(),
+                configUrlAndTimeoutConfig.getTestConnectTimeout()
+        );
         DefaultServiceInstance customInstance = new DefaultServiceInstance();
         try {
             customInstance.setUri(new URI(url));
         } catch (URISyntaxException ignored) {
         }
         return new DefaultResponse(customInstance);
-    }
-
-    private String getReachableUrl() {
-        List<String> urlList = Optional.ofNullable(
-                configUrlAndTimeoutConfig.getUrlList()
-        ).orElse(Collections.emptyList());
-        for (String url : urlList) {
-            String ip = resolveIp(url);
-            Integer port = resolvePort(url);
-
-            if (NetStateUtil.isReachable(ip, port, configUrlAndTimeoutConfig.getTestConnectTimeout())) {
-                return url;
-            }
-        }
-        throw new IllegalStateException(
-                String.format("no url is reachable. urlList = %s", urlList)
-        );
-    }
-
-
-    /**
-     * 从给定URL中解析出IP
-     *
-     * @param configUrl 配置的URL
-     * @return ConfigServer的IP
-     */
-    private String resolveIp(String configUrl) {
-        int start = configUrl.indexOf("://");
-        int end = configUrl.lastIndexOf(":");
-        int first = configUrl.indexOf(":");
-
-        if (start == -1 || end == -1 || first == end) {
-            throw new IllegalStateException(
-                    String.format("invalid url = %s", configUrl)
-            );
-        }
-        return configUrl.substring(start + 3, end);
-    }
-
-    private Integer resolvePort(String url) {
-        return Integer.parseInt(url.substring(url.lastIndexOf(":") + 1));
     }
 
     @Autowired

@@ -57,4 +57,30 @@ public class CommonUtil {
         }
         return true;
     }
+
+    /**
+     * 解析URI中/分隔的第一个字符串，作为访问的服务名
+     * @param uri URI
+     * @return 服务名
+     */
+    public static String getUriServiceName(String uri) {
+        if (uri == null || uri.isEmpty()) {
+            return null;
+        }
+        int first = uri.indexOf("/");
+        int last = uri.lastIndexOf("/");
+
+        // 能解析出serviceName的uri
+        // 1. 必须以 / 开头
+        // 2. / 数量必须多于1个
+        if (first != 0 || first == last) {
+            return null;
+        }
+        // 3. service长度不为0
+        String serviceName = uri.substring(1, last);
+        if (serviceName.trim().isEmpty()) {
+            return null;
+        }
+        return serviceName;
+    }
 }

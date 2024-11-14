@@ -46,6 +46,13 @@
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
             <version>${spring-cloud-starter-netflix.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jinhua</groupId>
+            <artifactId>feign-common</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

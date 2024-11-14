@@ -2,7 +2,7 @@ server:
   port: 5005
 eureka:
   instance:
-    hostname: localhost
+    hostname: 172.17.6.103
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:5000/eureka/
@@ -12,19 +12,15 @@ spring:
     name: service-zuul
 zuul:
   routes:
-    eureka-client: /eureka-client/**
-#      path: /eureka-client/**
-#      serviceId: eureka-client
-#      #      url: http://${eureka.instance.hostname}:5002/
-#      stripPrefix: false
-    service-ribbon: /service-ribbon/**
-#      path: /service-ribbon/**
-#      serviceId: service-ribbon
-##      url: http://${eureka.instance.hostname}:5003/
-#      stripPrefix: false
-    service-feign: /service-feign/**
-#      path: /service-feign/**
+    service-feign:
+      path: /service-feign/**
+      id: service-feign
 #      serviceId: service-feign
-##      url: http://${eureka.instance.hostname}:5004/
-#      stripPrefix: false
-
+      url: http://${eureka.instance.hostname}:5004/
+      stripPrefix: false
+  # 自定义功能，自定义代码判断多个服务的可用性，并路由
+  manual-routing:
+    services:
+      eureka-client:
+        - http://${eureka.instance.hostname}:5002
+        - http://${eureka.instance.hostname}:5003

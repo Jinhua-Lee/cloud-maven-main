@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Jinhua
@@ -20,7 +21,7 @@ public class FeignController {
     private ToEurekaClient toEurekaClient;
 
     @GetMapping("/hello")
-    public String hello(@RequestParam("name") String name) {
+    public List<String> hello(@RequestParam("name") String name) {
         return toEurekaClient.helloFromClient(
                 MyHelloDTO.builder()
                         .name(name)

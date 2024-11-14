@@ -20,8 +20,8 @@ routing:
 service:
   eureka-client:
     url-list:
-      - http://172.17.6.113:5002
-      - http://172.17.6.113:5003
+      - http://172.17.6.103:5002
+      - http://172.17.6.103:5003
     connectionRequestTimeout: 5000
     connectTimeout: 5000
     readTimeout: 100000
