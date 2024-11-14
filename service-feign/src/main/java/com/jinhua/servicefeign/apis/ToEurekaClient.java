@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * @author Jinhua-Lee
  */
@@ -21,6 +23,6 @@ public interface ToEurekaClient {
      * @return hello string.
      */
     @PostMapping("/eureka-client/hello")
-    String helloFromClient(@RequestBody MyHelloDTO hello);
+    List<String> helloFromClient(@RequestBody MyHelloDTO hello);
 
 }

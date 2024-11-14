@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Jinhua
@@ -25,7 +27,8 @@ public class AccountController {
     private Integer port;
 
     @PostMapping(value = "/hello")
-    public String home(@RequestBody MyHelloDTO hello) {
-        return "Hello, " + hello.getName() + "! I am from port: " + port;
+    public List<String> home(@RequestBody MyHelloDTO hello) {
+        String msg = "Hello, " + hello.getName() + "! I am from port: " + port;
+        return Collections.singletonList(msg);
     }
 }
