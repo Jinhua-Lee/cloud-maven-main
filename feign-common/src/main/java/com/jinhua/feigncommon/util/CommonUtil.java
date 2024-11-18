@@ -77,7 +77,12 @@ public class CommonUtil {
             return null;
         }
         // 3. service长度不为0
-        String serviceName = uri.substring(1, last);
+
+        int second = uri.substring(1).indexOf("/") + 1;
+        if (second == 0) {
+            return null;
+        }
+        String serviceName = uri.substring(1, second);
         if (serviceName.trim().isEmpty()) {
             return null;
         }

@@ -15,7 +15,7 @@ zuul:
     service-feign:
       path: /service-feign/**
       id: service-feign
-#      serviceId: service-feign
+#      service-id: service-feign
       url: http://${eureka.instance.hostname}:5004/
       stripPrefix: false
   # 自定义功能，自定义代码判断多个服务的可用性，并路由

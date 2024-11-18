@@ -1,6 +1,6 @@
 package com.electric.cet.servicezuul.web.filter;
 
-import com.electric.cet.servicezuul.ManualRoutingServerConfig;
+import com.electric.cet.servicezuul.config.ManualRoutingServerConfig;
 import com.jinhua.feigncommon.util.CommonUtil;
 import com.jinhua.feigncommon.util.NetStateUtil;
 import com.netflix.zuul.ZuulFilter;
@@ -21,9 +21,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.FORWARD_TO_KEY;
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SERVICE_ID_KEY;
 
 /**
  * @author Jinhua-Lee
