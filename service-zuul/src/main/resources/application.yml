@@ -19,7 +19,7 @@ zuul:
       url: http://${eureka.instance.hostname}:5004/
       stripPrefix: false
   # 自定义功能，自定义代码判断多个服务的可用性，并路由
-  manual-routing:
+  custom-routing:
     services:
       eureka-client:
         - http://${eureka.instance.hostname}:5002

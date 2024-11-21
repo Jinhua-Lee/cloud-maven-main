@@ -1,6 +1,6 @@
 package com.electric.cet.servicezuul.web.filter;
 
-import com.electric.cet.servicezuul.config.ManualRoutingServerConfig;
+import com.electric.cet.servicezuul.config.CustomRoutingServiceConfig;
 import com.jinhua.feigncommon.util.CommonUtil;
 import com.jinhua.feigncommon.util.NetStateUtil;
 import com.netflix.zuul.ZuulFilter;
@@ -27,9 +27,9 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
-public class ManualRoutingFilter extends ZuulFilter {
+public class CustomMultiUrlFilter extends ZuulFilter {
 
-    private ManualRoutingServerConfig manualRoutingServerConfig;
+    private CustomRoutingServiceConfig customRoutingServiceConfig;
 
     @Override
     public String filterType() {
@@ -43,12 +43,6 @@ public class ManualRoutingFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        // a filter has already forwarded
-        // a filter has already determined
-        // return !ctx.containsKey(FORWARD_TO_KEY)
-        //         && !ctx.containsKey(SERVICE_ID_KEY);
-        // serviceId
         return true;
     }
 
@@ -58,22 +52,22 @@ public class ManualRoutingFilter extends ZuulFilter {
         HttpServletRequest request = ctx.getRequest();
 
         String uri = request.getRequestURI();
-        log.debug("[manual routing] request uri: {}", uri);
+        log.debug("[custom routing] request uri: {}", uri);
 
         String pathServiceName = CommonUtil.getUriServiceName(uri);
-        log.debug("[manual routing] service name: {}", pathServiceName);
+        log.debug("[custom routing] service name: {}", pathServiceName);
 
         if (ObjectUtils.isEmpty(pathServiceName)) {
-            log.warn("[manual routing] could not resolve service name from URI: {}", uri);
+            log.warn("[custom routing] could not resolve service name from URI: {}", uri);
             return null;
         }
 
         // 判断是否在配置给定的手动路由服务范围内
-        List<String> urls = Optional.ofNullable(manualRoutingServerConfig.getServices())
+        List<String> urls = Optional.ofNullable(customRoutingServiceConfig.getServices())
                 .orElse(Collections.emptyMap())
                 .get(pathServiceName);
         if (ObjectUtils.isEmpty(urls)) {
-            log.debug("[manual routing] service name: {} not in manual routing service list",
+            log.debug("[custom routing] service name: {} not in manual routing service list",
                     pathServiceName
             );
             return null;
@@ -83,7 +77,7 @@ public class ManualRoutingFilter extends ZuulFilter {
         try {
             reachableUrl = NetStateUtil.getReachableUrl(urls, 10_000);
         } catch (Exception e) {
-            log.error("[manual routing] failed to get reachable url. stop routing", e);
+            log.error("[custom routing] failed to get reachable url. stop routing", e);
             ctx.setSendZuulResponse(false);
 
             HttpServletResponse response = ctx.getResponse();
@@ -97,12 +91,12 @@ public class ManualRoutingFilter extends ZuulFilter {
             }
             return null;
         }
-        log.debug("[manual routing] it's going to route to reachable url: {}", reachableUrl);
+        log.debug("[custom routing] it's going to route to reachable url: {}", reachableUrl);
         URL routeHost = null;
         try {
             routeHost = new URL(reachableUrl);
         } catch (MalformedURLException e) {
-            log.error("[manual routing] failed to resolve reachable url to URL object", e);
+            log.error("[custom routing] failed to resolve reachable url to URL object", e);
             ctx.setSendZuulResponse(false);
 
             HttpServletResponse response = ctx.getResponse();
@@ -122,7 +116,7 @@ public class ManualRoutingFilter extends ZuulFilter {
     }
 
     @Autowired
-    public void setManualRoutingServerConfig(ManualRoutingServerConfig manualRoutingServerConfig) {
-        this.manualRoutingServerConfig = manualRoutingServerConfig;
+    public void setManualRoutingServerConfig(CustomRoutingServiceConfig customRoutingServiceConfig) {
+        this.customRoutingServiceConfig = customRoutingServiceConfig;
     }
 }

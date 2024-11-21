@@ -15,17 +15,17 @@ import java.util.Map;
 @Data
 @Slf4j
 @Component
-@ConfigurationProperties(value = "zuul.manual-routing")
-public class ManualRoutingServerConfig implements InitializingBean {
+@ConfigurationProperties(value = "zuul.custom-routing")
+public class CustomRoutingServiceConfig implements InitializingBean {
     private Map<String, List<String>> services;
 
     @Override
     public void afterPropertiesSet() {
-        log.info("[manual-routing] services: start===============");
+        log.info("[custom-routing] services: start===============");
         services.forEach((name, urls) -> {
-            log.info("[manual-routing] service: {}", name);
-            log.info("[manual-routing] service urls: {}", urls);
+            log.info("[custom-routing] service: {}", name);
+            log.info("[custom-routing] service urls: {}", urls);
         });
-        log.info("[manual-routing] services: end===============");
+        log.info("[custom-routing] services: end===============");
     }
 }
