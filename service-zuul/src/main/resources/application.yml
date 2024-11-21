@@ -20,6 +20,7 @@ zuul:
       stripPrefix: false
   # 自定义功能，自定义代码判断多个服务的可用性，并路由
   custom-routing:
+    test-connect-timeout: 1000
     services:
       eureka-client:
         - http://${eureka.instance.hostname}:5002
