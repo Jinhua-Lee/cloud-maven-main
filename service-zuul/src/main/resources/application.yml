@@ -25,3 +25,13 @@ zuul:
       eureka-client:
         - http://${eureka.instance.hostname}:5002
         - http://${eureka.instance.hostname}:5003
+
+ribbon:
+  eager-load:
+    enabled: true
+    clients:
+      - eureka-client
+  ReadTimeout: 20_000
+  ConnectTimeout: 20_000
+  MaxAutoRetries: 3
+  MaxAutoRetriesNextServer: 20
