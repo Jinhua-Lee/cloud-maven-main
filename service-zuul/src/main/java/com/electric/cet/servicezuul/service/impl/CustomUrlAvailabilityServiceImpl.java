@@ -4,17 +4,19 @@ import com.electric.cet.servicezuul.config.CustomRoutingServiceConfig;
 import com.electric.cet.servicezuul.service.CustomUrlAvailabilityService;
 import com.jinhua.feigncommon.util.NetStateUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Jinhua-Lee
  */
+@Slf4j
 @Component
 public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilityService {
 
@@ -51,6 +53,7 @@ public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilitySe
                     return urlState;
                 })
         );
+        log.debug("[custom-routing] current service url state: {}", serviceUrlStateMap);
     }
 
     @Override
@@ -63,5 +66,24 @@ public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilitySe
                                 )
                         )
                 );
+    }
+
+    @Override
+    public Map<String, Set<String>> getAllReachableUrlsByServiceName() {
+        Map<String, Set<String>> allReachableBySrvName = new LinkedHashMap<>();
+        this.serviceUrlStateMap.forEach((srvName, url2State) -> {
+            Set<String> allReachable4Srv = url2State.entrySet().stream()
+                    // 可用
+                    .filter(Map.Entry::getValue)
+                    // URL
+                    .map(Map.Entry::getKey)
+                    // 与配置的路由顺序一致，LinkedHashSet
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            if (!ObjectUtils.isEmpty(allReachable4Srv)) {
+                allReachableBySrvName.put(srvName, allReachable4Srv);
+            }
+        });
+        log.debug("[custom-routing] current reachable services are: {}", allReachableBySrvName);
+        return allReachableBySrvName;
     }
 }
