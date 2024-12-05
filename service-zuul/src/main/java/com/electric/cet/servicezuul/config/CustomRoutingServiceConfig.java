@@ -27,9 +27,8 @@ public class CustomRoutingServiceConfig implements InitializingBean {
         if (testConnectTimeout == null) {
             testConnectTimeout = 1000;
         }
-        log.info("[custom-routing] services: start===============");
         services.forEach((name, urls) -> {
-            log.info("[custom-routing] service: {}", name);
+            log.info("[custom-routing] loading config for service: {}", name);
             // 服务的自定义Url列表不能为空
             if (ObjectUtils.isEmpty(urls)) {
                 log.error("[custom-routing] urls for service {} is empty, which is not allowed!", name);
@@ -46,8 +45,7 @@ public class CustomRoutingServiceConfig implements InitializingBean {
                     );
                 }
             });
-            log.info("[custom-routing] service urls: {}", urls);
+            log.info("[custom-routing] loaded service urls: {}", urls);
         });
-        log.info("[custom-routing] services: end===============");
     }
 }

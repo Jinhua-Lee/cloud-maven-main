@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Component
 public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilityService {
 
-    private final CustomRoutingServiceConfig customRoutingServiceConfig;
+    private CustomRoutingServiceConfig customRoutingServiceConfig;
 
     /**
      * 每个服务的每个Url可用性的Map
@@ -29,7 +29,7 @@ public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilitySe
     private final Map<String, Map<String, Boolean>> serviceUrlStateMap = new HashMap<>();
 
     @Autowired
-    public CustomUrlAvailabilityServiceImpl(CustomRoutingServiceConfig customRoutingServiceConfig) {
+    public void setCustomRoutingServiceConfig(CustomRoutingServiceConfig customRoutingServiceConfig) {
         this.customRoutingServiceConfig = customRoutingServiceConfig;
     }
 
@@ -58,7 +58,8 @@ public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilitySe
 
     @Override
     public String getReachableUrl4Service(String serviceName) {
-        return this.serviceUrlStateMap.get(serviceName).entrySet()
+        return Optional.ofNullable(this.serviceUrlStateMap.get(serviceName))
+                .orElse(Collections.emptyMap()).entrySet()
                 .stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).findFirst().orElseThrow(() ->
                         new IllegalStateException(
                                 String.format("no url is reachable. urlList = %s",
@@ -79,6 +80,7 @@ public class CustomUrlAvailabilityServiceImpl implements CustomUrlAvailabilitySe
                     .map(Map.Entry::getKey)
                     // 与配置的路由顺序一致，LinkedHashSet
                     .collect(Collectors.toCollection(LinkedHashSet::new));
+            // 当非空时，才将url结果设置进去
             if (!ObjectUtils.isEmpty(allReachable4Srv)) {
                 allReachableBySrvName.put(srvName, allReachable4Srv);
             }
