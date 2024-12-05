@@ -4,6 +4,7 @@ import com.jinhua.feigncommon.util.CommonUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Data
 @Slf4j
 @Component
+@ConditionalOnProperty(prefix = "zuul.custom-routing", value = "enabled", havingValue = "true")
 @ConfigurationProperties(value = "zuul.custom-routing")
 public class CustomRoutingServiceConfig implements InitializingBean {
     private Map<String, List<String>> services;
@@ -27,9 +29,8 @@ public class CustomRoutingServiceConfig implements InitializingBean {
         if (testConnectTimeout == null) {
             testConnectTimeout = 1000;
         }
-        log.info("[custom-routing] services: start===============");
         services.forEach((name, urls) -> {
-            log.info("[custom-routing] service: {}", name);
+            log.info("[custom-routing] loading config for service: {}", name);
             // 服务的自定义Url列表不能为空
             if (ObjectUtils.isEmpty(urls)) {
                 log.error("[custom-routing] urls for service {} is empty, which is not allowed!", name);
@@ -46,8 +47,7 @@ public class CustomRoutingServiceConfig implements InitializingBean {
                     );
                 }
             });
-            log.info("[custom-routing] service urls: {}", urls);
+            log.info("[custom-routing] loaded service urls: {}", urls);
         });
-        log.info("[custom-routing] services: end===============");
     }
 }
